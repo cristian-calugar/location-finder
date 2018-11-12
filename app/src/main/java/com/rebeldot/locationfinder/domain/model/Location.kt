@@ -2,7 +2,7 @@ package com.rebeldot.locationfinder.domain.model
 
 import java.io.Serializable
 
-class Location(
+data class Location(
     val name: String,
     val address: String,
     val latitude: Double,
