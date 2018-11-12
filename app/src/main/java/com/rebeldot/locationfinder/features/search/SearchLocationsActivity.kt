@@ -8,7 +8,7 @@ import android.support.v7.widget.DividerItemDecoration
 import android.support.v7.widget.LinearLayoutManager
 import android.widget.SearchView
 import com.rebeldot.locationfinder.R
-import com.rebeldot.locationfinder.domain.LocationFinder
+import com.rebeldot.locationfinder.domain.finder.LocationFinderFactory
 import com.rebeldot.locationfinder.domain.model.Location
 import com.rebeldot.locationfinder.features.details.LocationDetailsActivity
 import kotlinx.android.synthetic.main.activity_search_locations.*
@@ -18,6 +18,8 @@ import java.util.*
 class SearchLocationsActivity : AppCompatActivity(), LocationsAdapter.LocationSelectionListener {
 
     private lateinit var locationsAdapter: LocationsAdapter
+
+    private var locationFinder = LocationFinderFactory.getLocationFinder(this)
 
     private val onQueryTextListener = object : SearchView.OnQueryTextListener {
         override fun onQueryTextSubmit(query: String): Boolean {
@@ -67,7 +69,7 @@ class SearchLocationsActivity : AppCompatActivity(), LocationsAdapter.LocationSe
     }
 
     private fun searchLocationsByName(searchText: String): List<Location> {
-        return LocationFinder.getLocationsByLocationName(this, searchText)
+        return locationFinder.getLocationsByLocationName(searchText)
     }
 
     private fun displayLocations(locations: List<Location>) {
