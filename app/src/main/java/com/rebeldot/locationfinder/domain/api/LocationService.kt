@@ -8,7 +8,7 @@ class LocationService(
 ) {
 
     companion object {
-        const val MAX_RESULTS = 20
+        private const val MAX_RESULTS = 20
     }
 
     fun getAddressesByLocationName(locationName: String): List<Address> {

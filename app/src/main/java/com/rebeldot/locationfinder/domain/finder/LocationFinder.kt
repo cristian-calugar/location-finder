@@ -1,6 +1,5 @@
 package com.rebeldot.locationfinder.domain.finder
 
-import android.text.TextUtils
 import com.rebeldot.locationfinder.domain.api.LocationService
 import com.rebeldot.locationfinder.domain.model.Location
 import java.util.*
@@ -11,7 +10,7 @@ class LocationFinder(
 ) {
 
     fun getLocationsByLocationName(locationName: String): List<Location> {
-        if (TextUtils.isEmpty(locationName)) {
+        if (locationName.isEmpty()) {
             return ArrayList()
         }
 

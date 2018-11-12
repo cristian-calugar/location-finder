@@ -12,11 +12,11 @@ import com.rebeldot.locationfinder.domain.finder.LocationFinder
 import com.rebeldot.locationfinder.domain.finder.LocationFinderFactory
 import com.rebeldot.locationfinder.domain.model.Location
 import com.rebeldot.locationfinder.features.details.LocationDetailsActivity
-import kotlinx.android.synthetic.main.activity_search_locations.*
+import kotlinx.android.synthetic.main.activity_search_location.*
 import java.lang.ref.WeakReference
 import java.util.*
 
-class SearchLocationsActivity : AppCompatActivity(), LocationsAdapter.LocationSelectionListener {
+class SearchLocationActivity : AppCompatActivity(), LocationsAdapter.LocationSelectionListener {
 
     private lateinit var locationsAdapter: LocationsAdapter
 
@@ -37,12 +37,12 @@ class SearchLocationsActivity : AppCompatActivity(), LocationsAdapter.LocationSe
     }
 
     private fun enqueueLocationSearchTask(query: String) {
-        SearchLocationsAsyncTask(this, query).execute()
+        SearchLocationAsyncTask(this, query).execute()
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_search_locations)
+        setContentView(R.layout.activity_search_location)
 
         setupSearchView()
         setupLocationsView()
@@ -83,7 +83,7 @@ class SearchLocationsActivity : AppCompatActivity(), LocationsAdapter.LocationSe
         }
     }
 
-    private fun searchLocationsByName(searchText: String): List<Location> {
+    private fun searchLocationByName(searchText: String): List<Location> {
         return locationFinder.getLocationsByLocationName(searchText)
     }
 
@@ -92,12 +92,12 @@ class SearchLocationsActivity : AppCompatActivity(), LocationsAdapter.LocationSe
         locationsAdapter.notifyDataSetChanged()
     }
 
-    private class SearchLocationsAsyncTask internal constructor(
-        context: SearchLocationsActivity,
+    private class SearchLocationAsyncTask internal constructor(
+        context: SearchLocationActivity,
         private val searchText: String
     ) : AsyncTask<Void, Void, List<Location>>() {
 
-        private val activityReference: WeakReference<SearchLocationsActivity> = WeakReference(context)
+        private val activityReference: WeakReference<SearchLocationActivity> = WeakReference(context)
 
         override fun onPreExecute() {
             val activity = activityReference.get()
@@ -110,7 +110,7 @@ class SearchLocationsActivity : AppCompatActivity(), LocationsAdapter.LocationSe
             val activity = activityReference.get()
             if (activity == null || activity.isFinishing) return ArrayList()
 
-            return activity.searchLocationsByName(searchText)
+            return activity.searchLocationByName(searchText)
         }
 
         override fun onPostExecute(locations: List<Location>) {

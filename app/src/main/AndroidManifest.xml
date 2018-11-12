@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-          xmlns:tools="http://schemas.android.com/tools" package="com.rebeldot.locationfinder">
+          xmlns:tools="http://schemas.android.com/tools"
+          package="com.rebeldot.locationfinder">
 
     <application
             android:allowBackup="false"
@@ -10,14 +11,16 @@
             android:supportsRtl="true"
             android:theme="@style/AppTheme"
             tools:ignore="GoogleAppIndexingWarning">
-        <activity android:name=".features.search.SearchLocationsActivity"
-                  android:label="Search locations">
+
+        <activity android:name=".features.search.SearchLocationActivity"
+                  android:label="@string/search_location_activity_title">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
 
                 <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
         </activity>
+
         <activity android:name=".features.details.LocationDetailsActivity"
                   android:label="@string/location_details_activity_title">
         </activity>
