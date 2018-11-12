@@ -8,6 +8,7 @@ import android.support.v7.widget.DividerItemDecoration
 import android.support.v7.widget.LinearLayoutManager
 import android.widget.SearchView
 import com.rebeldot.locationfinder.R
+import com.rebeldot.locationfinder.domain.finder.LocationFinder
 import com.rebeldot.locationfinder.domain.finder.LocationFinderFactory
 import com.rebeldot.locationfinder.domain.model.Location
 import com.rebeldot.locationfinder.features.details.LocationDetailsActivity
@@ -19,20 +20,24 @@ class SearchLocationsActivity : AppCompatActivity(), LocationsAdapter.LocationSe
 
     private lateinit var locationsAdapter: LocationsAdapter
 
-    private var locationFinder = LocationFinderFactory.getLocationFinder(this)
+    private val locationFinder: LocationFinder by lazy { LocationFinderFactory.getLocationFinder(this) }
 
     private val onQueryTextListener = object : SearchView.OnQueryTextListener {
         override fun onQueryTextSubmit(query: String): Boolean {
+            enqueueLocationSearchTask(query)
+
             return false
         }
 
         override fun onQueryTextChange(newText: String): Boolean {
-            SearchLocationsAsyncTask(
-                this@SearchLocationsActivity,
-                newText
-            ).execute()
+            enqueueLocationSearchTask(newText)
+
             return false
         }
+    }
+
+    private fun enqueueLocationSearchTask(query: String) {
+        SearchLocationsAsyncTask(this, query).execute()
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -68,6 +73,16 @@ class SearchLocationsActivity : AppCompatActivity(), LocationsAdapter.LocationSe
         startActivity(intent)
     }
 
+    private fun showProgressIndicator() {
+        progress_indicator.show()
+    }
+
+    private fun hideProgressIndicator(searchText: String) {
+        if (search_view.query.toString() == searchText) {
+            progress_indicator.hide()
+        }
+    }
+
     private fun searchLocationsByName(searchText: String): List<Location> {
         return locationFinder.getLocationsByLocationName(searchText)
     }
@@ -84,6 +99,13 @@ class SearchLocationsActivity : AppCompatActivity(), LocationsAdapter.LocationSe
 
         private val activityReference: WeakReference<SearchLocationsActivity> = WeakReference(context)
 
+        override fun onPreExecute() {
+            val activity = activityReference.get()
+            if (activity == null || activity.isFinishing) return
+
+            activity.showProgressIndicator()
+        }
+
         override fun doInBackground(vararg voids: Void): List<Location> {
             val activity = activityReference.get()
             if (activity == null || activity.isFinishing) return ArrayList()
@@ -96,6 +118,7 @@ class SearchLocationsActivity : AppCompatActivity(), LocationsAdapter.LocationSe
             if (activity == null || activity.isFinishing) return
 
             activity.displayLocations(locations)
+            activity.hideProgressIndicator(searchText)
         }
     }
 }
