@@ -2,6 +2,7 @@ package com.rebeldot.locationfinder.domain.finder
 
 import com.rebeldot.locationfinder.domain.api.LocationService
 import com.rebeldot.locationfinder.domain.model.Location
+import java.io.IOException
 import java.util.*
 
 class LocationFinder(
@@ -14,8 +15,12 @@ class LocationFinder(
             return ArrayList()
         }
 
-        val addresses = locationService.getAddressesByLocationName(locationName)
+        return try {
+            val addresses = locationService.getAddressesByLocationName(locationName)
 
-        return locationMapper.mapAddressesToLocations(addresses)
+            locationMapper.mapAddressesToLocations(addresses)
+        } catch (e: IOException) {
+            ArrayList()
+        }
     }
 }
