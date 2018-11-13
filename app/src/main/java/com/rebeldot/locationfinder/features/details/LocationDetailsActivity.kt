@@ -21,6 +21,10 @@ class LocationDetailsActivity : AppCompatActivity() {
         retrieveAndDisplayLocation()
     }
 
+    private fun setupActionBar() {
+        supportActionBar?.setDisplayHomeAsUpEnabled(true)
+    }
+
     private fun retrieveAndDisplayLocation() {
         val location = intent.getSerializableExtra(LOCATION_PARAMETER) as? Location
 
@@ -34,10 +38,6 @@ class LocationDetailsActivity : AppCompatActivity() {
         location_address.text = location.address
         location_latitude.text = location.latitude.toString()
         location_longitude.text = location.longitude.toString()
-    }
-
-    private fun setupActionBar() {
-        supportActionBar?.setDisplayHomeAsUpEnabled(true)
     }
 
     override fun onSupportNavigateUp(): Boolean {

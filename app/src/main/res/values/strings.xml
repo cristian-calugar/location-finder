@@ -1,7 +1,7 @@
 <resources>
-    <string name="app_name">LocationFinder</string>
+    <string name="app_name">Location Finder</string>
     <string name="search_location_hint">Search for a street or place</string>
-    <string name="location_details_activity_title">Location details</string>
+    <string name="location_details_activity_title">Location Details</string>
     <string name="name_label">Name:</string>
     <string name="address_label">Address:</string>
     <string name="latitude_label">Latitude:</string>
