@@ -6,5 +6,4 @@
     <string name="address_label">Address:</string>
     <string name="latitude_label">Latitude:</string>
     <string name="longitude_label">Longitude:</string>
-    <string name="search_location_activity_title">Search location</string>
 </resources>
